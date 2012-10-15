@@ -1,0 +1,157 @@
+Description: Fixes license issues on some files.
+ Some files were missing copyright owners and/or license type.
+Origin: upstream
+Bug-Debian: http://bugs.debian.org/588588
+Applied-Upstream: http://trac.aircrack-ng.org/changeset/2074
+---
+diff -ruN 1.1/src/pcap.h svn/src/pcap.h
+--- 1.1/src/pcap.h	2012-06-16 18:08:52.704677018 +0200
++++ svn/src/pcap.h	2012-06-16 18:09:03.140357091 +0200
+@@ -1,3 +1,35 @@
++/*
++ *
++ *  Copyright (C) 2001-2004  Christophe Devine
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, write to the Free Software
++ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ *
++ * In addition, as a special exception, the copyright holders give
++ * permission to link the code of portions of this program with the
++ * OpenSSL library under certain conditions as described in each
++ * individual source file, and distribute linked combinations
++ * including the two.
++ * You must obey the GNU General Public License in all respects
++ * for all of the code used other than OpenSSL.  If you modify
++ * file(s) with this exception, you may extend this exception to your
++ * version of the file(s), but you are not obligated to do so.  If you
++ * do not wish to do so, delete this exception statement from your
++ * version.  If you delete this exception statement from all source
++ * files in the program, then also delete it here.
++ 
++ */
+ #ifndef _AIRCRACK_NG_PCAP_H_
+ #define _AIRCRACK_NG_PCAP_H_
+ 
+diff -ruN 1.1/src/sha1-sse2.h svn/src/sha1-sse2.h
+--- 1.1/src/sha1-sse2.h	2012-06-16 18:16:14.679127375 +0200
++++ svn/src/sha1-sse2.h	2012-06-16 18:16:23.030871323 +0200
+@@ -1,6 +1,34 @@
+-
+-
+-/* nx5 - C code for SSE2 (i386) optimized SHA1 */
++/* C code for SSE2 (i386) optimized SHA1 - License: GPLv2
++ * (c) nx5 <naplam33@msn.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * is provided AS IS, WITHOUT ANY WARRANTY; without even the implied
++ * warranty of MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, and
++ * NON-INFRINGEMENT.  See the GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston,
++ * MA 02111-1307, USA.
++ *
++ * In addition, as a special exception, the copyright holders give
++ * permission to link the code of portions of this program with the
++ * OpenSSL library under certain conditions as described in each
++ * individual source file, and distribute linked combinations
++ * including the two.
++ * You must obey the GNU General Public License in all respects
++ * for all of the code used other than OpenSSL.  If you modify
++ * file(s) with this exception, you may extend this exception to your
++ * version of the file(s), but you are not obligated to do so.  If you
++ * do not wish to do so, delete this exception statement from your
++ * version.  If you delete this exception statement from all source
++ * files in the program, then also delete it here.
++ */
+ 
+ 
+ #include <stdlib.h>
+diff -ruN 1.1/src/sha1-sse2.S svn/src/sha1-sse2.S
+--- 1.1/src/sha1-sse2.S	2012-06-16 18:08:52.704677018 +0200
++++ svn/src/sha1-sse2.S	2012-06-16 18:11:59.482950934 +0200
+@@ -1,12 +1,26 @@
+ 
+-// SHA-1 SSE2 implementation, (C) 2008 Alvaro Salmador (naplam33@msn.com), ported from Simon Marechal's SHA-1 MMX
+-// SHA-1 MMX implementation, (C) 2005 Simon Marechal (simon@banquise.net)
++// SHA-1 SSE2 implementation, (C) 2008 Alvaro Salmador (naplam33@msn.com), ported from Simon Marechal's SHA-1 MMX - License: GPLv2
++// SHA-1 MMX implementation, (C) 2005 Simon Marechal (simon@banquise.net) - License: Public Domain
+ 
+ // This code computes two (with sse now four) SHA-1 digests at the same time. It
+ // doesn't take care of padding (0x80 and size << 3), so make
+ // sure the last input block is properly padded. Both 64-byte
+ // input blocks must be (four bytes) interleaved.
+ 
++//  In addition, as a special exception, the copyright holders give
++//  permission to link the code of portions of this program with the
++//  OpenSSL library under certain conditions as described in each
++//  individual source file, and distribute linked combinations
++//  including the two.
++//  You must obey the GNU General Public License in all respects
++//  for all of the code used other than OpenSSL. *  If you modify
++//  file(s) with this exception, you may extend this exception to your
++//  version of the file(s), but you are not obligated to do so. *  If you
++//  do not wish to do so, delete this exception statement from your
++//  version. *  If you delete this exception statement from all source
++//  files in the program, then also delete it here.
++
++
+ #if defined(__x86_64__) && defined(__APPLE__)
+ #define MANGLE(x) x(%rip)
+ #else
+diff -ruN 1.1/src/version.h svn/src/version.h
+--- 1.1/src/version.h	2012-06-16 18:08:52.704677018 +0200
++++ svn/src/version.h	2012-06-16 18:11:13.400363685 +0200
+@@ -1,3 +1,35 @@
++/* 
++ * (c) 2010-2012 Thomas D'Otreppe <tdotreppe@aircrack-ng.org>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of the
++ * License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * is provided AS IS, WITHOUT ANY WARRANTY; without even the implied
++ * warranty of MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, and
++ * NON-INFRINGEMENT.  See the GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place - Suite 330, Boston,
++ * MA 02111-1307, USA.
++ *
++ * In addition, as a special exception, the copyright holders give
++ * permission to link the code of portions of this program with the
++ * OpenSSL library under certain conditions as described in each
++ * individual source file, and distribute linked combinations
++ * including the two.
++ * You must obey the GNU General Public License in all respects
++ * for all of the code used other than OpenSSL.  If you modify
++ * file(s) with this exception, you may extend this exception to your
++ * version of the file(s), but you are not obligated to do so.  If you
++ * do not wish to do so, delete this exception statement from your
++ * version.  If you delete this exception statement from all source
++ * files in the program, then also delete it here.
++ */
++
+ #define _MAJ 1
+ #define _MIN 1
+ #define _SUB_MIN 0

@@ -1,0 +1,29 @@
+Format: 1.8
+Date: Sat, 28 Jul 2012 01:41:14 +0200
+Source: aircrack-ng
+Binary: aircrack-ng
+Architecture: source i386
+Version: 1:1.1-5
+Distribution: unstable
+Urgency: low
+Maintainer: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Changed-By: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Description: 
+ aircrack-ng - wireless WEP/WPA cracking utilities
+Closes: 642698
+Changes: 
+ aircrack-ng (1:1.1-5) unstable; urgency=low
+ .
+   * Add 018-workaround-681113-kfreebsd.diff (Really closes: #642698)
+Checksums-Sha1: 
+ 5a4a4e231479eb3339d57eb8c5eb4f801fd88b18 995 aircrack-ng_1.1-5.dsc
+ 36bbc62fdf2e1918321a9f9def6b0674d34f354b 244792 aircrack-ng_1.1-5.debian.tar.gz
+ 68025d0bb7a3515881bb5d26b49b63730fbf3f92 852318 aircrack-ng_1.1-5_i386.deb
+Checksums-Sha256: 
+ 4d95df7a1e7b7513ffecc2f5908ac84e34186fe317007a7bb5e151e7d8658e4d 995 aircrack-ng_1.1-5.dsc
+ 121c59f0e121b78b3c23d4f7418200e74e3279b14c43642730c36509b487dde7 244792 aircrack-ng_1.1-5.debian.tar.gz
+ 2f658713d184558a48f0ff673c8eb3b992fe747657525d320dd8e9f4c708bbd0 852318 aircrack-ng_1.1-5_i386.deb
+Files: 
+ 32eebbb524cc7574f829f0507ca02bc3 995 net optional aircrack-ng_1.1-5.dsc
+ 4f8d90111d64da33b6596e898efc1431 244792 net optional aircrack-ng_1.1-5.debian.tar.gz
+ edfe61a2d9b282973395f618955cb7a7 852318 net optional aircrack-ng_1.1-5_i386.deb

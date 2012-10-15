@@ -1,0 +1,28 @@
+Description: Fixes big endian issues on aircrack-ng
+Author: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Forwarded: http://trac.aircrack-ng.org/ticket/1022
+---
+--- a/src/aircrack-ng.c
++++ b/src/aircrack-ng.c
+@@ -899,7 +899,10 @@
+ 				break;
+ 
+ 			if( pfh.magic == TCPDUMP_CIGAM )
++			{
+ 				SWAP32( pkh.caplen );
++				SWAP32( pkh.len );
++			}
+ 
+ 			if( pkh.caplen <= 0 || pkh.caplen > 65535 )
+ 			{
+@@ -1816,7 +1819,10 @@
+ 				goto read_fail;
+ 
+ 			if( pfh.magic == TCPDUMP_CIGAM )
++			{
+ 				SWAP32( pkh.caplen );
++				SWAP32( pkh.len );
++			}
+ 
+ 			if( pkh.caplen <= 0 || pkh.caplen > 65535 )
+ 			{

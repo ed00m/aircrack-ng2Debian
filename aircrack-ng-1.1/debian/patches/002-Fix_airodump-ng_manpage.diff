@@ -1,0 +1,16 @@
+Description: Fix warning: "macro 'pcap' not defined" on airodump-ng manpage
+Author: Adam Cecile (Le_Vert) <gandalf@le-vert.net>
+Bug-Debian: http://bugs.debian.org/570982
+Forwarded: no
+---
+--- aircrack-ng-1.0/manpages/airodump-ng.1	2009-09-01 11:29:33.000000000 +0200
++++ aircrack-ng-1.0/manpages/airodump-ng.1.new	2010-04-09 11:29:01.292271912 +0200
+@@ -55,7 +55,7 @@
+ .TP
+ .I --output-format <formats>
+ Define the formats to use (separated by a comma). Possible values are: pcap, ivs, csv, gps, kismet, netxml. The default values are: pcap, csv, kismet, kismet-newcore.
+-'pcap' is for recording a capture in pcap format, 'ivs' is for ivs format (it is a shortcut for --ivs). 'csv' will create an airodump-ng CSV file, 'kismet' will create a kismet csv file and 'kismet-newcore' will create the kismet netxml file. 'gps' is a shortcut for --gps.
++\'pcap\' is for recording a capture in pcap format, 'ivs' is for ivs format (it is a shortcut for --ivs). 'csv' will create an airodump-ng CSV file, 'kismet' will create a kismet csv file and 'kismet-newcore' will create the kismet netxml file. 'gps' is a shortcut for --gps.
+ .br
+ Theses values can be combined with the exception of ivs and pcap.
+ .PP

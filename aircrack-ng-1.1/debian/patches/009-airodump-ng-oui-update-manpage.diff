@@ -1,0 +1,75 @@
+Description: Add airodump-ng-oui-update manpage
+Origin: upstream
+Applied-Upstream: http://trac.aircrack-ng.org/changeset/2054
+---
+Index: aircrack-ng-1.1/manpages/airodump-ng-oui-update.1
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ aircrack-ng-1.1/manpages/airodump-ng-oui-update.1	2012-06-16 23:51:30.000000000 +0200
+@@ -0,0 +1,53 @@
++.TH AIRODUMP-NG-OUI-UPDATE 1 "February 2012" "Version 1.1"
++
++.SH NAME
++airodump-ng-oui-update - IEEE oui list updater for airodump-ng
++
++.SH SYNOPSIS
++.B airodump-ng-oui-update
++
++.SH DESCRIPTION
++.BI airodump-ng-oui-update
++downloads and parses IEEE OUI list.
++
++.SH AUTHOR
++This manual page was written by David Francos Cuartero.
++Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 2 or any later version published by the Free Software Foundation
++On Debian systems, the complete text of the GNU General Public License can be found in /usr/share/common-licenses/GPL.
++
++.PP
++.SH SEE ALSO
++.br
++.B aircrack-ng(1)
++.br
++.B airdecap-ng(1)
++.br
++.B airdecloak-ng(1)
++.br
++.B airdriver-ng(1)
++.br
++.B aireplay-ng(1)
++.br
++.B airmon-ng(1)
++.br
++.B airodump-ng(1)
++.br
++.B airolib-ng(1)
++.br
++.B airserv-ng(1)
++.br
++.B buddy-ng(1)
++.br
++.B easside-ng(1)
++.br
++.B ivstools(1)
++.br
++.B kstats(1)
++.br
++.B makeivs-ng(1)
++.br
++.B packetforge-ng(1)
++.br
++.B tkiptun-ng(1)
++.br
++.B wesside-ng(1)
+Index: aircrack-ng-1.1/manpages/Makefile
+===================================================================
+--- aircrack-ng-1.1.orig/manpages/Makefile	2009-02-20 18:43:30.000000000 +0100
++++ aircrack-ng-1.1/manpages/Makefile	2012-06-16 23:51:30.000000000 +0200
+@@ -4,7 +4,7 @@
+ MP_FILES        = aircrack-ng.1 airdecap-ng.1 airdriver-ng.1 aireplay-ng.1 \
+                   airmon-ng.1 airodump-ng.1 airserv-ng.1 airtun-ng.1 \
+                   ivstools.1 kstats.1 makeivs-ng.1 airbase-ng.1 \
+-                  packetforge-ng.1 airdecloak-ng.1 
++                  packetforge-ng.1 airdecloak-ng.1 airodump-ng-oui-update.1
+ 
+ 
+ ifeq ($(SQLITE), true)

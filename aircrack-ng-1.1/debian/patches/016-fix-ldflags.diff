@@ -1,0 +1,38 @@
+Description: Some binaries where not honoring LDFLAGS passed via environment.
+ This fixes the lintian warning hardening-no-relro
+Author: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Forwarded: http://trac.aircrack-ng.org/ticket/1019
+---
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -181,7 +181,7 @@
+ 	$(CC) $(CFLAGS) $(OBJS_IV) -o $(@) $(LIBSSL)
+ 
+ kstats$(EXE): kstats.o
+-	$(CC) $(CFLAGS) kstats.o -o $(@)
++	$(CC) $(CFLAGS) kstats.o -o $(@) $(LDFLAGS)
+ 
+ wesside-ng$(EXE): $(OBJS_WS) $(LIBOSD)
+ 	$(CC) $(CFLAGS) $(OBJS_WS) -o $(@) $(LIBS) $(LIBSSL) -lz
+@@ -190,10 +190,10 @@
+ 	$(CC) $(CFLAGS) $(OBJS_ES) -o $(@) $(LIBS) -lz
+ 
+ buddy-ng$(EXE): $(OBJS_BUDDY)
+-	$(CC) $(CFLAGS) $(OBJS_BUDDY) -o $(@)
++	$(CC) $(CFLAGS) $(OBJS_BUDDY) -o $(@) $(LDFLAGS)
+ 
+ makeivs-ng$(EXE): $(OBJS_MI)
+-	$(CC) $(CFLAGS) $(OBJS_MI) -o $(@)
++	$(CC) $(CFLAGS) $(OBJS_MI) -o $(@) $(LDFLAGS)
+ 
+ airolib-ng$(EXE): $(OBJS_AL)
+ 	$(CC) $(CFLAGS) $(OBJS_AL) -o $(@) $(LIBSSL) -DHAVE_REGEXP $(LIBSQL)
+@@ -202,7 +202,7 @@
+ 	$(CC) $(CFLAGS) $(OBJS_AB) -o $(@) $(LIBS) $(LIBSSL) -lpthread
+ 
+ airdecloak-ng$(EXE): $(OBJS_AU)
+-	$(CC) $(CFLAGS) $(OBJS_AU) -o $(@)
++	$(CC) $(CFLAGS) $(OBJS_AU) -o $(@) $(LDFLAGS)
+ 
+ tkiptun-ng$(EXE): $(OBJS_TT) $(LIBOSD)
+ 	$(CC) $(CFLAGS) $(OBJS_TT) -o $(@) $(LIBS) $(LIBSSL)

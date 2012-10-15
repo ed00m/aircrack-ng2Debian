@@ -1,0 +1,14 @@
+Description: Despites airmon claims to use /bin/sh it's full of bashism,
+ and thus requires /bin/bash.
+Author: Adam Cecile (Le_Vert) <gandalf@le-vert.net>
+Bug-Debian: http://bugs.debian.org/486025
+Forwarded: no
+---
+--- aircrack-ng-1.0~rc1/scripts/airmon-ng	2008-06-09 21:55:09.000000000 +0200
++++ aircrack-ng-1.0~rc1/scripts/airmon-ng.new	2008-07-05 19:39:51.736505546 +0200
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ USERID=""
+ IFACE=""

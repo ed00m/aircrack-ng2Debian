@@ -1,0 +1,8 @@
+apt-get install build-essential devscripts dpkg-dev debhelper libnl-dev libsqlite3-dev libpcap0.8-dev
+wget http://ftp.debian.org/debian/pool/main/a/aircrack-ng/aircrack-ng_1.0~rc3-2.dsc
+wget http://ftp.debian.org/debian/pool/main/a/aircrack-ng/aircrack-ng_1.0~rc3-2.diff.gz
+wget http://ftp.debian.org/debian/pool/main/a/aircrack-ng/aircrack-ng_1.0~rc3.orig.tar.gz
+dpkg-source -x aircrack-ng_1.0~rc3-2.dsc
+cd aircrack-ng-1.0~rc3
+dpkg-buildpackage
+dpkg -i ../aircrack-ng*.deb

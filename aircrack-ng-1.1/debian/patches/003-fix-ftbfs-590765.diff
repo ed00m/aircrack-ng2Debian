@@ -1,0 +1,19 @@
+Description: Fixes a FTBFS on sparc
+ Because of wrong preprocessing instructions, the build systm, when
+ run on sparc, thinks to be using Solaris, so tries to include headers
+ that are not available under Linux. This patch fixes this test.
+Author: Giovanni Mascellani <gio@debian.org>
+Bug-Debian: http://bugs.debian.org/590765
+Forwarded: http://trac.aircrack-ng.org/ticket/1020
+---
+--- aircrack-ng-1.1.orig/src/osdep/byteorder.h
++++ aircrack-ng-1.1/src/osdep/byteorder.h
+@@ -167,7 +167,7 @@
+ 	 * Solaris
+ 	 * -------
+ 	 */
+-	#if defined(__sparc__)
++	#if defined(__sparc__) && defined(__sun__)
+ 	#include <sys/byteorder.h>
+ 	#include <sys/types.h>
+ 	#include <unistd.h>

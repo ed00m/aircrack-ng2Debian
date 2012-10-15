@@ -1,0 +1,28 @@
+Description: Fix right path for file airodump-ng-oui.txt
+Author: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Forwarded: no
+---
+diff -ruN a/scripts/airodump-ng-oui-update b/scripts/airodump-ng-oui-update
+--- a/scripts/airodump-ng-oui-update	2012-05-29 02:08:23.904959286 +0200
++++ b/scripts/airodump-ng-oui-update	2012-05-29 02:09:53.789714514 +0200
+@@ -4,7 +4,7 @@
+ WGET=`which wget 2>/dev/null`
+ OUI_DOWNLOAD_URL="http://standards.ieee.org/regauth/oui/oui.txt"
+ 
+-OUI_PATH="/usr/local/etc/aircrack-ng"
++OUI_PATH="/usr/share/aircrack-ng"
+ AIRODUMP_NG_OUI="${OUI_PATH}/airodump-ng-oui.txt"
+ OUI_IEEE="${OUI_PATH}/oui.txt"
+ USERID=""
+diff -ruN a/src/airodump-ng.h b/src/airodump-ng.h
+--- a/src/airodump-ng.h	2012-05-29 02:08:23.900959431 +0200
++++ b/src/airodump-ng.h	2012-05-29 02:09:41.078173422 +0200
+@@ -111,7 +111,7 @@
+ "\x00\x00\x00\x00\x00\x00\x00\x00"
+ "\x00\x00\x00\x00\x00\x00\x00\x00";
+ 
+-#define OUI_PATH "/usr/local/etc/aircrack-ng/airodump-ng-oui.txt"
++#define OUI_PATH "/usr/share/aircrack-ng/airodump-ng-oui.txt"
+ #define MIN_RAM_SIZE_LOAD_OUI_RAM 32768
+ 
+ int read_pkts=0;

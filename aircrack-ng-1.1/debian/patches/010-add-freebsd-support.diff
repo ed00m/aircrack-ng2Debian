@@ -1,0 +1,84 @@
+Description: GNU/kFreeBSD support
+Author: Robert Millan <rmh@debian.org>
+Bug-Debian: http://bugs.debian.org/642698
+Forwarded: http://trac.aircrack-ng.org/ticket/944
+           http://trac.aircrack-ng.org/ticket/945
+Applied-Upstream: http://trac.aircrack-ng.org/changeset/1973
+                  http://trac.aircrack-ng.org/changeset/1974
+---
+--- a/common.mak
++++ b/common.mak
+@@ -2,7 +2,7 @@
+ TOOL_PREFIX	=
+ endif
+ ifndef OSNAME
+-OSNAME		= $(shell uname -s | sed -e 's/.*CYGWIN.*/cygwin/g')
++OSNAME		= $(shell uname -s | sed -e 's/.*CYGWIN.*/cygwin/g' -e 's,/,-,g')
+ endif
+ ifndef SQLITE
+ SQLITE		= false
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -1,7 +1,7 @@
+ AC_ROOT		= ..
+ include		$(AC_ROOT)/common.mak
+ 
+-SCRIPTS         = airmon-ng airdriver-ng airodump-ng-oui-update
++SCRIPTS         = airdriver-ng airodump-ng-oui-update
+ 
+ default: all
+ 
+@@ -10,6 +10,13 @@
+ 	
+ install:
+ 	install -m 755 $(SCRIPTS) $(DESTDIR)$(sbindir)
++ifeq ($(OSNAME), Linux)
++	install -m 755 airmon-ng $(DESTDIR)$(sbindir)/airmon-ng
++endif
++ifeq ($(filter FreeBSD GNU-kFreeBSD, $(OSNAME)),)
++else
++	install -m 755 airmon-ng.freebsd $(DESTDIR)$(sbindir)/airmon-ng
++endif
+ 
+ uninstall:
+ 	-rm -f $(DESTDIR)$(sbindir)/airmon-ng
+--- /dev/null
++++ b/scripts/airmon-ng.freebsd
+@@ -0,0 +1,12 @@
++#!/bin/sh
++
++cat << EOF
++On $(uname), it is not necessary to use airmon-ng to enable the monitor
++mode of your wireless card. Instead, you need to specify this mode when
++creating your wlan device. For example:
++
++        ifconfig wlan0 create wlandev ath0 wlanmode monitor
++
++EOF
++
++exit 0
+--- a/src/osdep/Makefile
++++ b/src/osdep/Makefile
+@@ -41,6 +41,11 @@
+ 	$(RANLIB) $(LIB)
+ 	touch $(@)
+ 
++.os.GNU-kFreeBSD: $(OBJS_FBSD)
++	$(AR) cru $(LIB) $(OBJS_FBSD)
++	$(RANLIB) $(LIB)
++	touch $(@)
++
+ .os.OpenBSD: $(OBJS_OBSD)
+ 	$(AR) cru $(LIB) $(OBJS_OBSD)
+ 	$(RANLIB) $(LIB)
+--- a/src/osdep/freebsd.c
++++ b/src/osdep/freebsd.c
+@@ -560,7 +560,7 @@
+ 
+ int get_battery_state(void)
+ {
+-#if defined(__FreeBSD__)
++#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+     int value;
+     size_t len;
+ 

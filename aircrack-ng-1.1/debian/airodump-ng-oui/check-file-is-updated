@@ -1,0 +1,16 @@
+#! /bin/bash
+if ! which curl &>/dev/null; then
+	echo "Please install curl. I need it to download the file to test for"
+	exit 1
+fi
+if ! ping -c1 standards.ieee.org &>/dev/null; then
+	echo "ERROR: Can't reach standards.ieee.org. Check your internet connection"
+	exit 1
+fi
+if diff -qu airodump-ng-oui.txt <(curl -s http://standards.ieee.org/develop/regauth/oui/oui.txt | grep "(hex)") &>/dev/null; then
+	echo "OK: file is updated"
+	exit 0
+else
+	echo "ERROR: file needs to be update"
+	exit 1
+fi

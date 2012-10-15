@@ -1,0 +1,24 @@
+Description: Work-around Debian bug #681113
+  * On Debian/kfreebsd machines libpthread causes the stdout to fall in
+    a blackhole when it is piped. This breaks the tests on aircrack-ng.
+  * Workaround it by forcing line buffer when running aircrack-ng on the
+    tests
+Author: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Bug-Debian: http://bugs.debian.org/680414
+Forwarded: http://bugs.debian.org/681113
+---
+Index: aircrack-ng-1.1/src/Makefile
+===================================================================
+--- aircrack-ng-1.1.orig/src/Makefile	2012-07-10 20:23:22.000000000 +0200
++++ aircrack-ng-1.1/src/Makefile	2012-07-10 20:27:12.000000000 +0200
+@@ -245,5 +245,10 @@
+ 	-rm -rf $(DESTDIR)$(etcdir)
+ 
+ check: aircrack-ng$(EXE)
++ifeq ($(filter FreeBSD GNU-kFreeBSD, $(OSNAME)),)
+ 	./aircrack-ng$(EXE) -w $(TEST_DIR)/password.lst -a 2 -e Harkonen -q $(TEST_DIR)/wpa2.eapol.cap | grep 'KEY FOUND! \[ 12345678 \]' 
+ 	./aircrack-ng$(EXE) -w $(TEST_DIR)/password.lst -a 2 -e test -q $(TEST_DIR)/wpa.cap | grep 'KEY FOUND! \[ biscotte \]'
++else
++	stdbuf -oL ./aircrack-ng$(EXE) -w $(TEST_DIR)/password.lst -a 2 -e Harkonen -q $(TEST_DIR)/wpa2.eapol.cap | grep 'KEY FOUND! \[ 12345678 \]' 
++	stdbuf -oL ./aircrack-ng$(EXE) -w $(TEST_DIR)/password.lst -a 2 -e test -q $(TEST_DIR)/wpa.cap | grep 'KEY FOUND! \[ biscotte \]'
++endif

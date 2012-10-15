@@ -1,0 +1,238 @@
+Description: Fix cppcheck errors.
+Origin: upstream
+Bug-Debian: http://bugs.debian.org/642934
+Forwarded: http://trac.aircrack-ng.org/ticket/957
+Applied-Upstream: http://trac.aircrack-ng.org/changeset/2008
+--
+--- a/src/airbase-ng.c
++++ b/src/airbase-ng.c
+@@ -1453,6 +1453,7 @@
+ 
+     if( fread( (*dest), size, 1, f ) != 1 )
+     {
++    	fclose(f);
+         fprintf( stderr, "fread failed\n" );
+         return( 1 );
+     }
+--- a/src/aircrack-ng.c
++++ b/src/aircrack-ng.c
+@@ -4381,7 +4381,6 @@
+ 	int i, origlen, keysize;
+ 	char *key;
+ 
+-	key = (char*) malloc(sizeof(char) * (opt.keylen + 1));
+ 	keysize = opt.keylen+1;
+ 
+ 	update_ivbuf();
+@@ -4392,6 +4391,7 @@
+ 		return( FAILURE );
+ 	}
+ 
++	key = (char*) malloc(sizeof(char) * (opt.keylen + 1));
+ 	gettimeofday( &t_last, NULL );
+ 	t_last.tv_sec--;
+ 
+@@ -4427,7 +4427,10 @@
+ 		}
+ 
+ 		if(check_wep_key(wep.key, opt.keylen, 0) == SUCCESS)
++		{
++			free(key);
+ 			return( SUCCESS );
++		}
+ 	}
+ }
+ 
+--- a/src/airdecloak-ng.c
++++ b/src/airdecloak-ng.c
+@@ -1125,6 +1125,8 @@
+ 		}
+ 	} while (next_packet_pointer() == true);
+ 
++	free(ivs_table);
++
+ 	return nb_packets;
+ }
+ 
+--- a/src/aireplay-ng.c
++++ b/src/aireplay-ng.c
+@@ -1103,6 +1103,7 @@
+ 
+         if( fwrite( &pfh_out, n, 1, f_cap_out ) != 1 )
+         {
++        	fclose(f_cap_out);
+             perror( "fwrite failed\n" );
+             return( 1 );
+         }
+@@ -1116,6 +1117,7 @@
+ 
+         if( fwrite( &pkh, n, 1, f_cap_out ) != 1 )
+         {
++        	fclose(f_cap_out);
+             perror( "fwrite failed" );
+             return( 1 );
+         }
+@@ -1124,6 +1126,7 @@
+ 
+         if( fwrite( h80211, n, 1, f_cap_out ) != 1 )
+         {
++        	fclose(f_cap_out);
+             perror( "fwrite failed" );
+             return( 1 );
+         }
+@@ -1158,6 +1161,7 @@
+ 
+     if( fread( (*dest), size, 1, f ) != 1 )
+     {
++    	fclose(f);
+         fprintf( stderr, "fread failed\n" );
+         return( 1 );
+     }
+--- a/src/airodump-ng.c
++++ b/src/airodump-ng.c
+@@ -397,13 +397,15 @@
+ 		if (sscanf(buffer, "%2c-%2c-%2c", a, b, c) == 3) {
+ 			if (oui_ptr == NULL) {
+ 				if (!(oui_ptr = (struct oui *)malloc(sizeof(struct oui)))) {
++					fclose(fp);
+ 					perror("malloc failed");
+ 					return NULL;
+ 				}
+ 			} else {
+ 				if (!(oui_ptr->next = (struct oui *)malloc(sizeof(struct oui)))) {
++					fclose(fp);
+ 					perror("malloc failed");
+-									return NULL;
++					return NULL;
+ 				}
+ 				oui_ptr = oui_ptr->next;
+ 			}
+--- a/src/airtun-ng.c
++++ b/src/airtun-ng.c
+@@ -673,6 +673,7 @@
+ 
+     if( fread( (*dest), size, 1, f ) != 1 )
+     {
++    	fclose(f);
+         fprintf( stderr, "fread failed\n" );
+         return( 1 );
+     }
+--- a/src/ivstools.c
++++ b/src/ivstools.c
+@@ -158,36 +158,47 @@
+ 
+         if( ( f_in = fopen( argv[i], "rb" ) ) == NULL )
+         {
++        	fclose(f_out);
+             perror( "fopen failed" );
+             return( 1 );
+         }
+ 
+         if( fread( buffer, 1, 4, f_in ) != 4 )
+         {
++        	fclose(f_out);
++        	fclose(f_in);
+             perror( "fread file header failed" );
+             return( 1 );
+         }
+ 
+         if( memcmp( buffer, IVSONLY_MAGIC, 4 ) == 0 )
+         {
++        	fclose(f_out);
++        	fclose(f_in);
+             printf( "%s is an old .ivs file\n", argv[i] );
+             return( 1 );
+         }
+ 
+         if( memcmp( buffer, IVS2_MAGIC, 4 ) != 0 )
+         {
++        	fclose(f_out);
++        	fclose(f_in);
+             printf( "%s is not an .%s file\n", argv[i], IVS2_EXTENSION );
+             return( 1 );
+         }
+ 
+         if( fread( &fivs2, 1, sizeof(struct ivs2_filehdr), f_in ) != (size_t) sizeof(struct ivs2_filehdr) )
+         {
++        	fclose(f_out);
++        	fclose(f_in);
+             perror( "fread file header failed" );
+             return( 1 );
+         }
+ 
+         if( fivs2.version > IVS2_VERSION )
+         {
++        	fclose(f_out);
++        	fclose(f_in);
+             printf( "Error, wrong %s version: %d. Supported up to version %d.\n", IVS2_EXTENSION, fivs2.version, IVS2_VERSION );
+             return( 1 );
+         }
+--- a/src/kstats.c
++++ b/src/kstats.c
+@@ -318,18 +318,23 @@
+ 
+     if( ( f = fopen( argv[1], "rb" ) ) == NULL )
+     {
++    	free(ivbuf);
+         perror( "fopen" );
+         return( 1 );
+     }
+ 
+     if( fread( buffer, 1, 4, f ) != 4 )
+     {
++    	free(ivbuf);
++    	fclose(f);
+         perror( "fread header" );
+         return( 1 );
+     }
+ 
+     if( memcmp( buffer, "\xBF\xCA\x84\xD4", 4 ) != 0 )
+     {
++    	free(ivbuf);
++    	fclose(f);
+         fprintf( stderr, "Not an .IVS file\n" );
+         return( 1 );
+     }
+@@ -406,5 +411,8 @@
+         printf( "\n\n" );
+     }
+ 
++    free(ivbuf);
++    fclose(f);
++
+     return( 0 );
+ }
+--- a/src/tkiptun-ng.c
++++ b/src/tkiptun-ng.c
+@@ -1322,6 +1322,7 @@
+ 
+         if( fwrite( &pfh_out, n, 1, f_cap_out ) != 1 )
+         {
++        	fclose(f_cap_out);
+             perror( "fwrite failed\n" );
+             return( 1 );
+         }
+@@ -1335,6 +1336,7 @@
+ 
+         if( fwrite( &pkh, n, 1, f_cap_out ) != 1 )
+         {
++        	fclose(f_cap_out);
+             perror( "fwrite failed" );
+             return( 1 );
+         }
+@@ -1343,6 +1345,7 @@
+ 
+         if( fwrite( h80211, n, 1, f_cap_out ) != 1 )
+         {
++        	fclose(f_cap_out);
+             perror( "fwrite failed" );
+             return( 1 );
+         }
+@@ -1377,6 +1380,7 @@
+ 
+     if( fread( (*dest), size, 1, f ) != 1 )
+     {
++    	fclose(f);
+         fprintf( stderr, "fread failed\n" );
+         return( 1 );
+     }

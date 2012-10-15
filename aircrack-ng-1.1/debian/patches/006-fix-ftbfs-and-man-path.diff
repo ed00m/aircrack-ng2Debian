@@ -1,0 +1,31 @@
+Description: Manpage dir was not following FSHS.
+ Fix 'no-unused-but-set-variable' that appeared with/after gcc 4.5
+Origin: upstream
+Applied-Upstream: http://trac.aircrack-ng.org/changeset/2146
+---
+--- a/common.mak	2010-02-13 23:32:28.000000000 +0100
++++ b/common.mak	2012-05-01 03:36:04.812545847 +0200
+@@ -67,14 +67,19 @@
+ REVFLAGS	= -D_REVISION=$(REVISION)
+ 
+ OPTFLAGS        = -D_FILE_OFFSET_BITS=64
+-CFLAGS          ?= -g -W -Wall -Werror -O3
++CFLAGS          ?= -g -W -Wall -O3
+ CFLAGS          += $(OPTFLAGS) $(REVFLAGS) $(COMMON_CFLAGS)
+ 
+ prefix          = /usr/local
+ bindir          = $(prefix)/bin
+ sbindir         = $(prefix)/sbin
+-mandir          = $(prefix)/man/man1
++mandir          = $(prefix)/share/man/man1
+ datadir         = $(prefix)/share
+ docdir          = $(datadir)/doc/aircrack-ng
+ libdir		= $(prefix)/lib
+-etcdir		= $(prefix)/etc/aircrack-ng 
+\ No newline at end of file
++etcdir		= $(prefix)/etc/aircrack-ng 
++
++GCC_OVER45	= $(shell expr 45 \<= `$(CC) -dumpversion | awk -F. '{ print $1$2 }'`)
++ifeq ($(GCC_OVER45), 1)
++CFLAGS		+= -Wno-unused-but-set-variable -Wno-array-bounds
++endif

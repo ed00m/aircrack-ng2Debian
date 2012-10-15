@@ -1,0 +1,17 @@
+000-Airmon_needs_bash.diff
+002-Fix_airodump-ng_manpage.diff
+003-fix-ftbfs-590765.diff
+004-fix-license-issues.diff
+005-fix-issues-cppcheck-r2008.diff
+006-fix-ftbfs-and-man-path.diff
+008-fix_path_airodump-ng-oui.diff
+009-airodump-ng-oui-update-manpage.diff
+010-add-freebsd-support.diff
+011-add-support-for-gcrypt.diff
+012-add-unittest-gcrypt.diff
+013-fix-hurd-ftbfs.diff
+014-man_page_formatting.diff
+015-move_to_man8_admin_commands.diff
+016-fix-ldflags.diff
+017-fix-bigendianissues.diff
+018-workaround-681113-kfreebsd.diff
